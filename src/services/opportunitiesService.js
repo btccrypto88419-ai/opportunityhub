@@ -69,27 +69,34 @@ export async function fetchFeaturedOpportunities(limit = 6) {
 
 export async function submitOpportunity(payload) {
   // Public submissions always go in as "pending" for admin review.
-  const { data, error } = await supabase
+  //
+  // Deliberately NOT chained with .select().single(): PostgREST/Supabase
+  // requires the inserted row to also satisfy a SELECT policy to return it,
+  // but a logged-out visitor's submission (submitted_by = null) has no
+  // matching SELECT policy on `opportunities` (only "published" rows and a
+  // submitter's own rows are selectable). Requesting the row back would make
+  // every anonymous submission fail with a false RLS error even though the
+  // insert itself succeeded. Callers only need to know whether it errored.
+  const { error } = await supabase
     .from("opportunities")
-    .insert([{ ...payload, status: "pending", is_featured: false, is_verified: false }])
-    .select()
-    .single();
-  return { data, error };
+    .insert([{ ...payload, status: "pending", is_featured: false, is_verified: false }]);
+  return { data: null, error };
 }
 
 export async function reportOpportunity({ opportunityId, userId, reason, details }) {
-  const { data, error } = await supabase
-    .from("reports")
-    .insert([
-      {
-        opportunity_id: opportunityId,
-        reporter_id: userId || null,
-        reason,
-        details: details || null,
-        status: "pending",
-      },
-    ])
-    .select()
-    .single();
-  return { data, error };
+  // Not chained with .select().single(): reports have no SELECT policy for
+  // anonymous reporters (reporter_id = null), only for the row's own
+  // reporter or an admin — see the same PostgREST insert+select RLS note in
+  // submitOpportunity() above. Requesting the row back would make every
+  // logged-out report submission fail even though the insert succeeded.
+  const { error } = await supabase.from("reports").insert([
+    {
+      opportunity_id: opportunityId,
+      reporter_id: userId || null,
+      reason,
+      details: details || null,
+      status: "pending",
+    },
+  ]);
+  return { data: null, error };
 }

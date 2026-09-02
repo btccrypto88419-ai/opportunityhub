@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Plus, Trash2, Save, Printer, FileDown } from "lucide-react";
+import { Plus, Trash2, Save, Printer } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "../contexts/ToastContext";
 import { emptyCv, getLocalCv, saveLocalCv, fetchCv, saveCv } from "../services/cvService";

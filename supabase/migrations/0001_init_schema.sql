@@ -37,13 +37,35 @@ create table if not exists public.profiles (
 
 alter table public.profiles enable row level security;
 
+-- SECURITY DEFINER helper used by every "admin can manage everything" policy
+-- below. This MUST be security definer + a plain function call (not an
+-- inline "exists (select ... from public.profiles ...)" subquery written
+-- directly inside a policy on the profiles table itself) — otherwise
+-- Postgres re-evaluates the profiles RLS policies while checking the
+-- subquery's own access to profiles, which recurses back into this same
+-- policy and fails with "infinite recursion detected in policy for relation
+-- profiles". Wrapping it in a SECURITY DEFINER function makes the internal
+-- lookup run with the function owner's privileges (bypassing RLS for this
+-- one narrowly-scoped check only), breaking the recursion.
+create or replace function public.is_admin()
+returns boolean
+language sql
+security definer
+stable
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles where id = auth.uid() and role = 'admin'
+  );
+$$;
+
 create policy "Profiles are viewable by their owner"
   on public.profiles for select
   using (auth.uid() = id);
 
 create policy "Admins can view all profiles"
   on public.profiles for select
-  using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (public.is_admin());
 
 create policy "Users can update their own profile"
   on public.profiles for update
@@ -162,8 +184,8 @@ create policy "Authenticated users can submit opportunities as pending"
 
 create policy "Admins can do everything on opportunities"
   on public.opportunities for all
-  using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'))
-  with check (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (public.is_admin())
+  with check (public.is_admin());
 
 create or replace function public.set_updated_at()
 returns trigger language plpgsql as $$
@@ -269,8 +291,8 @@ create policy "Reporters can view their own reports"
 
 create policy "Admins can manage all reports"
   on public.reports for all
-  using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'))
-  with check (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (public.is_admin())
+  with check (public.is_admin());
 
 -- =============================================================================
 -- 7. REFERRALS
@@ -296,8 +318,8 @@ create policy "Users can view referrals they made"
 
 create policy "Admins can manage all referrals"
   on public.referrals for all
-  using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'))
-  with check (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (public.is_admin())
+  with check (public.is_admin());
 
 -- Automatically create a pending referral row once a referred user's profile
 -- is created (see handle_new_user trigger above, which sets referred_by).
@@ -364,8 +386,8 @@ create policy "Active payment destinations are public"
 
 create policy "Admins manage payment destinations"
   on public.payment_destinations for all
-  using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'))
-  with check (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (public.is_admin())
+  with check (public.is_admin());
 
 create table if not exists public.payments (
   id uuid primary key default gen_random_uuid(),
@@ -395,8 +417,8 @@ create policy "Users can submit payments"
 
 create policy "Admins can manage all payments"
   on public.payments for all
-  using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'))
-  with check (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (public.is_admin())
+  with check (public.is_admin());
 
 -- =============================================================================
 -- 9. NOTIFICATIONS
@@ -446,9 +468,9 @@ create policy "Site settings are publicly readable"
 
 create policy "Admins can update site settings"
   on public.site_settings for update
-  using (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'))
-  with check (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  using (public.is_admin())
+  with check (public.is_admin());
 
 create policy "Admins can insert site settings"
   on public.site_settings for insert
-  with check (exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin'));
+  with check (public.is_admin());

@@ -4,11 +4,8 @@ import {
   LayoutDashboard,
   Briefcase,
   Users,
-  ClipboardList,
   Wallet,
-  Gift,
   Flag,
-  Star,
   Settings,
 } from "lucide-react";
 

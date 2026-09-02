@@ -3,14 +3,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import {
   Menu,
   X,
-  Search,
   Bookmark,
   ClipboardList,
-  FileText,
   User,
   LogOut,
   LayoutDashboard,
-  Bell,
 } from "lucide-react";
 import Logo from "../ui/Logo";
 import { useAuth } from "../../contexts/AuthContext";

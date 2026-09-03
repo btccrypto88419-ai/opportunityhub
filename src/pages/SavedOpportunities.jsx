@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Bookmark } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
-import { fetchSavedOpportunities } from "../services/savedOpportunitiesService";
-import { getLocalSavedIds } from "../services/savedOpportunitiesService";
+import { fetchSavedOpportunities, getLocalSavedIds } from "../services/savedOpportunitiesService";
 import { fetchOpportunities } from "../services/opportunitiesService";
 import OpportunityCard from "../components/opportunities/OpportunityCard";
 import { useSavedOpportunities } from "../hooks/useSavedOpportunities";

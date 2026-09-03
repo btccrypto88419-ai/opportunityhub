@@ -35,41 +35,43 @@ export default function AdminReports() {
   return (
     <div>
       <h2>Reports</h2>
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>Opportunity</th>
-            <th>Reason</th>
-            <th>Details</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reports.map((r) => (
-            <tr key={r.id}>
-              <td>{r.opportunity?.title || "—"}</td>
-              <td>{r.reason}</td>
-              <td className="admin-table-sub">{r.details || "—"}</td>
-              <td>
-                <span className={`status-pill status-${r.status}`}>{r.status}</span>
-              </td>
-              <td className="admin-table-actions">
-                {r.status === "pending" && (
-                  <>
-                    <button title="Resolve" onClick={() => handleStatus(r.id, "resolved")}>
-                      <CheckCircle2 size={15} />
-                    </button>
-                    <button title="Dismiss" onClick={() => handleStatus(r.id, "dismissed")}>
-                      <XCircle size={15} />
-                    </button>
-                  </>
-                )}
-              </td>
+      <div className="admin-table-scroll">
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>Opportunity</th>
+              <th>Reason</th>
+              <th>Details</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {reports.map((r) => (
+              <tr key={r.id}>
+                <td>{r.opportunity?.title || "—"}</td>
+                <td>{r.reason}</td>
+                <td className="admin-table-sub">{r.details || "—"}</td>
+                <td>
+                  <span className={`status-pill status-${r.status}`}>{r.status}</span>
+                </td>
+                <td className="admin-table-actions">
+                  {r.status === "pending" && (
+                    <>
+                      <button title="Resolve" onClick={() => handleStatus(r.id, "resolved")}>
+                        <CheckCircle2 size={15} />
+                      </button>
+                      <button title="Dismiss" onClick={() => handleStatus(r.id, "dismissed")}>
+                        <XCircle size={15} />
+                      </button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

@@ -303,12 +303,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section style={{ background: "#f7f9fc", padding: "55px 0" }}>
-        <div className="container" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 30 }}>
+      <section className="creator-section">
+        <div className="container creator-grid">
           <div>
             <span className="section-label">CREATOR</span>
             <h2>Created by Ojattah Wisdom</h2>
-            <p style={{ color: "var(--muted)", lineHeight: 1.7 }}>
+            <p className="creator-text">
               OpportunityHub was created to make opportunities easier for students,
               graduates and professionals to discover — starting in Nigeria, built to grow
               internationally.
@@ -316,7 +316,7 @@ export default function Home() {
           </div>
           <div>
             <h3>Have an opportunity to share?</h3>
-            <p style={{ color: "var(--muted)", lineHeight: 1.7 }}>
+            <p className="creator-text">
               Organizations and individuals can submit verified opportunities for review.
               Approved listings appear publicly, with optional featured placement.
             </p>

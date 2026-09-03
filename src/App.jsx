@@ -12,6 +12,8 @@ import ApplicationTracker from "./pages/ApplicationTracker";
 import CvBuilder from "./pages/CvBuilder";
 import Resources from "./pages/Resources";
 import Profile from "./pages/Profile";
+import Notifications from "./pages/Notifications";
+import ReferralHistory from "./pages/ReferralHistory";
 import SubmitOpportunity from "./pages/SubmitOpportunity";
 import PaymentCenter from "./pages/PaymentCenter";
 import Support from "./pages/Support";
@@ -102,6 +104,22 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/referrals"
+          element={
+            <ProtectedRoute>
+              <ReferralHistory />
             </ProtectedRoute>
           }
         />

@@ -80,7 +80,12 @@ export function AuthProvider({ children }) {
   }, []);
 
   const sendPasswordReset = useCallback(async (email) => {
-    const redirectTo = `${import.meta.env.VITE_SITE_URL || window.location.origin}/login`;
+    // Must point at /reset-password (the page that actually calls
+    // updatePassword()), not /login — Supabase's recovery link establishes a
+    // temporary session on whatever page it redirects to, and /login has no
+    // "set a new password" form, so sending users there silently strands them
+    // signed-in-but-unable-to-change-their-password.
+    const redirectTo = `${import.meta.env.VITE_SITE_URL || window.location.origin}/reset-password`;
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
     return { data, error };
   }, []);

@@ -909,6 +909,26 @@ a {
 }
 
 /* =========================================================
+   CREATOR / SUBMIT-AN-OPPORTUNITY STRIP
+   ========================================================= */
+
+.creator-section {
+  background: #f7f9fc;
+  padding: 55px 0;
+}
+
+.creator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.creator-text {
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* =========================================================
    FINAL CTA
    ========================================================= */
 
@@ -993,8 +1013,13 @@ a {
   }
 
   .hero-grid,
-  .cv-grid {
+  .cv-grid,
+  .creator-grid {
     grid-template-columns: 1fr;
+  }
+
+  .creator-grid {
+    gap: 40px;
   }
 
   .hero-card {
@@ -2238,7 +2263,8 @@ a {
 
 .status-approved,
 .status-published,
-.status-resolved {
+.status-resolved,
+.status-rewarded {
   background: #dcfce7;
   color: #15803d;
 }
@@ -2247,6 +2273,11 @@ a {
 .status-dismissed {
   background: #fee2e2;
   color: #b91c1c;
+}
+
+.status-qualified {
+  background: #dbeafe;
+  color: #1d4ed8;
 }
 
 /* =========================================================
@@ -2395,6 +2426,16 @@ a {
   color: var(--muted);
 }
 
+/* Wraps every .admin-table (Users/Payments/Reports/Opportunities/Referral
+   history) in its own horizontal scroller. Without this, a wide table on a
+   narrow screen gets silently clipped by .app's overflow-x: hidden — the
+   rightmost columns (e.g. the Actions buttons an admin needs to approve/
+   reject) become impossible to reach with no visual indication they exist. */
+.admin-table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .admin-table {
   width: 100%;
   border-collapse: collapse;
@@ -2403,6 +2444,12 @@ a {
   border-radius: 14px;
   overflow: hidden;
   font-size: 13px;
+}
+
+@media (max-width: 760px) {
+  .admin-table-scroll .admin-table {
+    min-width: 560px;
+  }
 }
 
 .admin-table th,
@@ -2531,8 +2578,150 @@ a {
     gap: 8px;
   }
 
-  .nav-auth a.icon-link span,
-  .nav-auth button.icon-link span {
+  .nav-auth a.icon-link span:not(.notification-badge),
+  .nav-auth button.icon-link span:not(.notification-badge) {
     display: none;
+  }
+}
+
+/* =========================================================
+   NOTIFICATIONS
+   ========================================================= */
+
+.nav-notification-link {
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--danger);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 16px;
+  text-align: center;
+}
+
+.notification-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.notification-item {
+  display: flex;
+  gap: 12px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.notification-item:hover {
+  border-color: var(--primary);
+}
+
+.notification-item.notification-unread {
+  background: var(--primary-light);
+  border-color: #bfdbfe;
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  width: 14px;
+  padding-top: 4px;
+}
+
+.notification-dot {
+  fill: var(--primary);
+  color: var(--primary);
+}
+
+.notification-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.notification-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.notification-type {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--primary);
+}
+
+.notification-date {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.notification-body h4 {
+  font-size: 14px;
+  margin-bottom: 4px;
+  word-wrap: break-word;
+}
+
+.notification-body p {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+/* =========================================================
+   REFERRAL HISTORY PAGE
+   ========================================================= */
+
+.referral-code-box-standalone {
+  max-width: 520px;
+  margin-bottom: 24px;
+}
+
+.referral-stat-grid {
+  margin-bottom: 28px;
+}
+
+.referral-history-heading {
+  margin-bottom: 14px;
+}
+
+.referral-history-table-wrap {
+  overflow-x: auto;
+}
+
+.referral-history-table-wrap .admin-table {
+  min-width: 560px;
+}
+
+@media (max-width: 760px) {
+  .notification-item {
+    padding: 12px;
+  }
+
+  .notification-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .referral-stat-grid {
+    grid-template-columns: 1fr 1fr;
   }
 }

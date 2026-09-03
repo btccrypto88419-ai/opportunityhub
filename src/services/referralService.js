@@ -7,11 +7,13 @@ export async function fetchReferralSummary(userId) {
 }
 
 export async function fetchReferralHistory(userId) {
-  const { data, error } = await supabase
-    .from("referrals")
-    .select("*, referred:referred_id(email)")
-    .eq("referrer_id", userId)
-    .order("created_at", { ascending: false });
+  // Expects a Postgres function `get_referral_history(p_user_id uuid)` — see
+  // supabase/migrations/0005_referral_summary_ownership.sql. A plain
+  // .from("referrals").select(...) can't include the referred person's name:
+  // profiles has no `email` column, and RLS on profiles correctly does not
+  // let a referrer read the referred user's full profile row directly, so
+  // this goes through a narrowly-scoped, ownership-checked RPC instead.
+  const { data, error } = await supabase.rpc("get_referral_history", { p_user_id: userId });
   return { data: data || [], error };
 }
 

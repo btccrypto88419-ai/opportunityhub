@@ -35,46 +35,48 @@ export default function AdminPayments() {
   return (
     <div>
       <h2>Payments</h2>
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Method</th>
-            <th>Amount</th>
-            <th>Reference</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {payments.map((p) => (
-            <tr key={p.id}>
-              <td>{p.profile?.full_name || p.user_id}</td>
-              <td>
-                {p.method.toUpperCase()}
-                {p.network ? ` (${p.network})` : ""}
-              </td>
-              <td>{p.amount}</td>
-              <td className="admin-table-sub">{p.reference}</td>
-              <td>
-                <span className={`status-pill status-${p.status}`}>{p.status}</span>
-              </td>
-              <td className="admin-table-actions">
-                {p.status === "pending" && (
-                  <>
-                    <button title="Approve" onClick={() => handleStatus(p.id, "approved")}>
-                      <CheckCircle2 size={15} />
-                    </button>
-                    <button title="Reject" onClick={() => handleStatus(p.id, "rejected")}>
-                      <XCircle size={15} />
-                    </button>
-                  </>
-                )}
-              </td>
+      <div className="admin-table-scroll">
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Method</th>
+              <th>Amount</th>
+              <th>Reference</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {payments.map((p) => (
+              <tr key={p.id}>
+                <td>{p.profile?.full_name || p.user_id}</td>
+                <td>
+                  {p.method.toUpperCase()}
+                  {p.network ? ` (${p.network})` : ""}
+                </td>
+                <td>{p.amount}</td>
+                <td className="admin-table-sub">{p.reference}</td>
+                <td>
+                  <span className={`status-pill status-${p.status}`}>{p.status}</span>
+                </td>
+                <td className="admin-table-actions">
+                  {p.status === "pending" && (
+                    <>
+                      <button title="Approve" onClick={() => handleStatus(p.id, "approved")}>
+                        <CheckCircle2 size={15} />
+                      </button>
+                      <button title="Reject" onClick={() => handleStatus(p.id, "rejected")}>
+                        <XCircle size={15} />
+                      </button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

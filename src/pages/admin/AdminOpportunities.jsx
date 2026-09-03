@@ -118,57 +118,59 @@ export default function AdminOpportunities() {
       )}
 
       {!loading && items.length > 0 && (
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Category</th>
-              <th>Status</th>
-              <th>Featured</th>
-              <th>Verified</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((item) => (
-              <tr key={item.id}>
-                <td>
-                  <strong>{item.title}</strong>
-                  <div className="admin-table-sub">{item.organization}</div>
-                </td>
-                <td>{item.category}</td>
-                <td>
-                  <span className={`status-pill status-${item.status}`}>{item.status}</span>
-                </td>
-                <td>
-                  <button className="icon-toggle" onClick={() => handleToggleFeatured(item)}>
-                    <Star size={15} fill={item.is_featured ? "currentColor" : "none"} />
-                  </button>
-                </td>
-                <td>
-                  <button className="icon-toggle" onClick={() => handleToggleVerified(item)}>
-                    <CheckCircle2 size={15} fill={item.is_verified ? "currentColor" : "none"} />
-                  </button>
-                </td>
-                <td className="admin-table-actions">
-                  {item.status === "pending" && (
-                    <>
-                      <button title="Approve" onClick={() => handleApprove(item)}>
-                        <CheckCircle2 size={15} />
-                      </button>
-                      <button title="Reject" onClick={() => handleReject(item)}>
-                        <XCircle size={15} />
-                      </button>
-                    </>
-                  )}
-                  <button title="Delete" onClick={() => handleDelete(item.id)}>
-                    <Trash2 size={15} />
-                  </button>
-                </td>
+        <div className="admin-table-scroll">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Featured</th>
+                <th>Verified</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {items.map((item) => (
+                <tr key={item.id}>
+                  <td>
+                    <strong>{item.title}</strong>
+                    <div className="admin-table-sub">{item.organization}</div>
+                  </td>
+                  <td>{item.category}</td>
+                  <td>
+                    <span className={`status-pill status-${item.status}`}>{item.status}</span>
+                  </td>
+                  <td>
+                    <button className="icon-toggle" onClick={() => handleToggleFeatured(item)}>
+                      <Star size={15} fill={item.is_featured ? "currentColor" : "none"} />
+                    </button>
+                  </td>
+                  <td>
+                    <button className="icon-toggle" onClick={() => handleToggleVerified(item)}>
+                      <CheckCircle2 size={15} fill={item.is_verified ? "currentColor" : "none"} />
+                    </button>
+                  </td>
+                  <td className="admin-table-actions">
+                    {item.status === "pending" && (
+                      <>
+                        <button title="Approve" onClick={() => handleApprove(item)}>
+                          <CheckCircle2 size={15} />
+                        </button>
+                        <button title="Reject" onClick={() => handleReject(item)}>
+                          <XCircle size={15} />
+                        </button>
+                      </>
+                    )}
+                    <button title="Delete" onClick={() => handleDelete(item.id)}>
+                      <Trash2 size={15} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       {formOpen && (

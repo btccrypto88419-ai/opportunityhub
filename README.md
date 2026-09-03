@@ -80,6 +80,17 @@ npm run preview    # preview the production build locally
    - `0003_seed_data.sql` — optional sample opportunities + payment
      destination placeholders (⚠️ replace the placeholder wallet
      addresses/account number with your real ones before launch)
+   - `0004_security_hardening.sql` — **required, security-critical**: closes
+     a self role-escalation gap on `profiles` and a submission-spoofing gap
+     on `opportunities`. Do not skip this file.
+   - `0005_referral_summary_ownership.sql` — **required, security-critical**:
+     closes an IDOR in the referral summary/history RPCs that would
+     otherwise let any signed-in user read another user's referral code and
+     earnings by passing their user id. Do not skip this file.
+
+   All five files must be applied, in order, on every environment (including
+   any project created before this audit). Running only `0001`–`0003` leaves
+   a real, exploitable security hole in a live project.
 3. **Copy your project's URL and anon/public key** into `.env`
    (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`). Never use the
    `service_role` key in the frontend.

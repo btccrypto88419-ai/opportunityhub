@@ -26,30 +26,32 @@ export default function AdminUsers() {
   return (
     <div>
       <h2>Users</h2>
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Role</th>
-            <th>Referral code</th>
-            <th>Joined</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((u) => (
-            <tr key={u.id}>
-              <td>{u.full_name || "—"}</td>
-              <td>
-                <span className={`status-pill ${u.role === "admin" ? "status-approved" : ""}`}>
-                  {u.role || "user"}
-                </span>
-              </td>
-              <td>{u.referral_code || "—"}</td>
-              <td>{u.created_at ? new Date(u.created_at).toLocaleDateString() : "—"}</td>
+      <div className="admin-table-scroll">
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Referral code</th>
+              <th>Joined</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {users.map((u) => (
+              <tr key={u.id}>
+                <td>{u.full_name || "—"}</td>
+                <td>
+                  <span className={`status-pill ${u.role === "admin" ? "status-approved" : ""}`}>
+                    {u.role || "user"}
+                  </span>
+                </td>
+                <td>{u.referral_code || "—"}</td>
+                <td>{u.created_at ? new Date(u.created_at).toLocaleDateString() : "—"}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

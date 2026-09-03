@@ -8,10 +8,13 @@ import {
   User,
   LogOut,
   LayoutDashboard,
+  Bell,
+  Gift,
 } from "lucide-react";
 import Logo from "../ui/Logo";
 import { useAuth } from "../../contexts/AuthContext";
 import { useToast } from "../../contexts/ToastContext";
+import { useUnreadNotificationsCount } from "../../hooks/useNotifications";
 
 const NAV_LINKS = [
   { to: "/opportunities", label: "Opportunities" },
@@ -27,6 +30,7 @@ export default function Header() {
   const { isAuthenticated, profile, user, signOut } = useAuth();
   const toast = useToast();
   const navigate = useNavigate();
+  const { unreadCount } = useUnreadNotificationsCount();
 
   useEffect(() => {
     setOpen(false);
@@ -64,6 +68,22 @@ export default function Header() {
                 </NavLink>
                 <NavLink to="/applications" className="icon-link" title="Application tracker">
                   <ClipboardList size={17} /> <span>Applications</span>
+                </NavLink>
+                <NavLink to="/referrals" className="icon-link" title="Referral history">
+                  <Gift size={17} /> <span>Referrals</span>
+                </NavLink>
+                <NavLink
+                  to="/notifications"
+                  className="icon-link nav-notification-link"
+                  title="Notifications"
+                >
+                  <Bell size={17} />
+                  <span>Notifications</span>
+                  {unreadCount > 0 && (
+                    <span className="notification-badge" aria-label={`${unreadCount} unread notifications`}>
+                      {unreadCount > 9 ? "9+" : unreadCount}
+                    </span>
+                  )}
                 </NavLink>
                 <NavLink to="/profile" className="icon-link" title="Profile">
                   <User size={17} /> <span>{profile?.full_name?.split(" ")[0] || "Profile"}</span>

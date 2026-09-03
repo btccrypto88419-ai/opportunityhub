@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Save, Copy, Users, Bookmark, ClipboardList, FileText } from "lucide-react";
+import { Save, Copy, Users, Bookmark, ClipboardList, FileText, Bell, Gift } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "../contexts/ToastContext";
 import { updateProfile } from "../services/profileService";
@@ -145,6 +145,12 @@ export default function Profile() {
             </Link>
             <Link to="/cv-builder">
               <FileText size={15} /> My CV
+            </Link>
+            <Link to="/notifications">
+              <Bell size={15} /> Notifications
+            </Link>
+            <Link to="/referrals">
+              <Gift size={15} /> Referral history
             </Link>
           </div>
         </aside>

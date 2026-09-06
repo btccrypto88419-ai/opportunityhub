@@ -77,11 +77,21 @@ on conflict do nothing;
 
 insert into public.payment_destinations (method, network, address, label, is_active)
 values
-  ('opay', null, 'REPLACE-WITH-REAL-ACCOUNT-NUMBER', 'OPay — OpportunityHub (replace before launch)', true),
-  ('usdt', 'TRC20 (Tron)', 'REPLACE-WITH-REAL-TRC20-ADDRESS', 'USDT (TRC20)', true),
-  ('usdt', 'BEP20 (BNB Smart Chain)', 'REPLACE-WITH-REAL-BEP20-ADDRESS', 'USDT (BEP20)', true),
-  ('btc', 'Bitcoin', 'REPLACE-WITH-REAL-BTC-ADDRESS', 'Bitcoin', true),
-  ('eth', 'ERC20 (Ethereum)', 'REPLACE-WITH-REAL-ETH-ADDRESS', 'Ethereum', true)
+  ('opay', null, '9031371539', 'OPay — Ojattah Wisdom Onuche', true),
+  ('btc', 'Bitcoin', 'bc1qtvz7264naty2m99s4lcjvy4wdnqxx6w4r339zg', 'Bitcoin (Mainnet)', true),
+  ('usdt', 'BEP20 (BNB Smart Chain)', '0x1dC115f4399636297A79cbD816843619385AD981', 'USDT (BEP20)', true),
+  ('usdt', 'ERC20 (Ethereum)', '0x1dC115f4399636297A79cbD816843619385AD981', 'USDT (ERC20)', true),
+  ('usdt', 'TRC20 (Tron)', 'TRtWncMKhArbCiBLYDkqprumtg7jNzCBPQ', 'USDT (TRC20)', true),
+  ('usdt', 'Solana', 'HgTZ3KRr73nRyRSVMm742mnaU2G3K6uFAtCWF4t1ogRT', 'USDT (Solana)', true),
+  ('usdt', 'TON', 'UQDxl8X4zJhssUx7_cwc4A3eyQen18i2cNhP6u2Ag4W2zfVQ', 'USDT (TON)', true),
+  ('usdc', 'BEP20 (BNB Smart Chain)', '0x1dC115f4399636297A79cbD816843619385AD981', 'USDC (BEP20)', true),
+  ('usdc', 'ERC20 (Ethereum)', '0x1dC115f4399636297A79cbD816843619385AD981', 'USDC (ERC20)', true),
+  ('usdc', 'Solana', 'HgTZ3KRr73nRyRSVMm742mnaU2G3K6uFAtCWF4t1ogRT', 'USDC (Solana)', true),
+  ('eth', 'ERC20 (Ethereum)', '0x1dC115f4399636297A79cbD816843619385AD981', 'ETH (Mainnet)', true),
+  ('eth', 'Base', '0x1dC115f4399636297A79cbD816843619385AD981', 'ETH (Base)', true),
+  ('bnb', 'BEP20 (BNB Smart Chain)', '0x1dC115f4399636297A79cbD816843619385AD981', 'BNB (BEP20)', true),
+  ('sol', 'Solana', 'HgTZ3KRr73nRyRSVMm742mnaU2G3K6uFAtCWF4t1ogRT', 'SOL (Mainnet)', true),
+  ('ton', 'TON', 'UQDxl8X4zJhssUx7_cwc4A3eyQen18i2cNhP6u2Ag4W2zfVQ', 'TON (Mainnet)', true)
 on conflict do nothing;
 
 -- To make your own account an admin after signing up through the app, run:

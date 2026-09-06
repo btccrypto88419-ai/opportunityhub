@@ -62,10 +62,10 @@ export const PAYMENT_METHODS = [
 ];
 
 export const CRYPTO_NETWORKS = {
-  usdt: ["TRC20 (Tron)", "ERC20 (Ethereum)", "BEP20 (BNB Smart Chain)"],
+  usdt: ["TRC20 (Tron)", "ERC20 (Ethereum)", "BEP20 (BNB Smart Chain)", "Solana", "TON"],
   btc: ["Bitcoin"],
-  usdc: ["ERC20 (Ethereum)", "BEP20 (BNB Smart Chain)", "SOL (Solana)"],
-  eth: ["ERC20 (Ethereum)"],
+  usdc: ["ERC20 (Ethereum)", "BEP20 (BNB Smart Chain)", "Solana"],
+  eth: ["ERC20 (Ethereum)", "Base"],
   bnb: ["BEP20 (BNB Smart Chain)"],
   sol: ["Solana"],
   ton: ["TON"],
